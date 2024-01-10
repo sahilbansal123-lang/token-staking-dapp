@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import { Connect } from "vite";
+import connectWallet from "../../utils/ConnectWallet";
 
 const Wallet = () => {
   const [state, setState] = useState({
