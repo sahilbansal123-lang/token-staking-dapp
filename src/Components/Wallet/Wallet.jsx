@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import connectWallet from "../../utils/ConnectWallet";
+import { handleAccountChange } from "../../utils/HandleAccountChange";
+import { handleChainChange } from "../../utils/HandleChainChange";
+import Web3Context from "../../Context/Web3Context";
+import Button from "../Button";
 
-const Wallet = () => {
+const Wallet = ({ children }) => {
   const [state, setState] = useState({
     provider: null,
     selectedAccount: null,
@@ -11,6 +15,24 @@ const Wallet = () => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    window.ethereum.on("accountsChanged", () => {
+      handleAccountChange(setState);
+    });
+    window.ethereum.on("chainChanged", () => {
+      handleChainChange(setState);
+    });
+
+    return () => {
+      window.ethereum.removeListener("accountsChanged", () => {
+        handleAccountChange(setState);
+      });
+      window.ethereum.removeListener("chainChanged", () => {
+        handleChainChange(setState);
+      });
+    };
+  }, []);
 
   const handleWallet = async () => {
     try {
@@ -22,19 +44,6 @@ const Wallet = () => {
         stakeTokenContract,
         chainId,
       } = await connectWallet();
-
-      console.log(
-        "provider:",
-        provider,
-        "selectedAccount:",
-        selectedAccount,
-        "stakingContract",
-        stakingContract,
-        "stakeTokenContract",
-        stakeTokenContract,
-        "chainId",
-        chainId
-      );
 
       setState({
         provider,
@@ -50,7 +59,13 @@ const Wallet = () => {
     }
   };
 
-  return <button onClick={handleWallet}>Connect Wallet</button>;
+  return (
+    <div>
+      <Web3Context.Provider value={state}>{children}</Web3Context.Provider>
+      {isLoading && <p>Loading....</p>}
+      <Button onClick={handleWallet} label="Connect Wallet" />
+    </div>
+  );
 };
 
 export default Wallet;

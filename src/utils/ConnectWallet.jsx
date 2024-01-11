@@ -18,7 +18,7 @@ const connectWallet = async () => {
     let chainIdHex = await window.ethereum.request({
       method: "eth_chainId",
     });
-    chainId = parseInt(chainIdHex, 10);
+    chainId = parseInt(chainIdHex, 16);
 
     let selectedAccount = accounts[0];
     if (!selectedAccount) {
@@ -50,5 +50,7 @@ const connectWallet = async () => {
     console.error(error);
     throw error;
   }
+
+
 };
 export default connectWallet;
