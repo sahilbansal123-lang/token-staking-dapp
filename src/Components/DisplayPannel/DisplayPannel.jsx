@@ -1,5 +1,5 @@
 import React from "react";
-import SatkedAmount from "./SatkedAmount";
+import SatkedAmount from "./StakedAmount";
 import EarnedReward from "./EarnedReward";
 import RewardRate from "./RewardRate";
 
