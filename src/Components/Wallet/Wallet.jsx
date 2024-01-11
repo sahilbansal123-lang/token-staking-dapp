@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import React from "react";
-import { Connect } from "vite";
 import connectWallet from "../../utils/ConnectWallet";
 
 const Wallet = () => {
   const [state, setState] = useState({
-    provider: nul,
-    account: null,
+    provider: null,
+    selectedAccount: null,
     stakingContract: null,
     stakeTokenContract: null,
     chainId: null,
@@ -19,26 +17,40 @@ const Wallet = () => {
       setIsLoading(true);
       const {
         provider,
-        account,
+        selectedAccount,
         stakingContract,
         stakeTokenContract,
         chainId,
       } = await connectWallet();
+
+      console.log(
+        "provider:",
+        provider,
+        "selectedAccount:",
+        selectedAccount,
+        "stakingContract",
+        stakingContract,
+        "stakeTokenContract",
+        stakeTokenContract,
+        "chainId",
+        chainId
+      );
+
       setState({
         provider,
-        account,
+        selectedAccount,
         stakingContract,
         stakeTokenContract,
         chainId,
       });
     } catch (error) {
-      console.error("Error Connecting to Wallet", error.message);
+      console.error("Error Connecting to Wallet:", error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  return <div>Wallet</div>;
+  return <button onClick={handleWallet}>Connect Wallet</button>;
 };
 
 export default Wallet;
