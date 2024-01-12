@@ -1,14 +1,18 @@
-import React from "react";
 import ConnectedAccount from "./ConnectedAccount";
 import ConnectedNetwork from "./ConnectedNetwork";
-
-const Navigation = () => {
-  return (
-    <nav>
+import ClaimReward from "../ClaimReward/ClaimReward";
+import "./Navigation.css"
+const Navigation = ()=>{
+  return(
+    <header className="navbar">
+    <div className="navbar-btns">
+      <ClaimReward />
+    </div>
+    <div className="navbar-acc">
       <ConnectedAccount />
       <ConnectedNetwork />
-    </nav>
-  );
-};
-
+    </div>
+  </header>
+  )
+}
 export default Navigation;
